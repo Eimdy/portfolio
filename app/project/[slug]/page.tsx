@@ -4,13 +4,14 @@ import { useRouter } from "next/navigation";
 import { EXTERNAL_LINKS } from "@/config/links";
 
 interface ProjectDetailProps {
-    params: {
+    params: Promise<{
         slug: string;
-    };
+    }>;
 }
 
-export default function ProjectDetail({ params }: ProjectDetailProps) {
+export default async function ProjectDetail({ params }: ProjectDetailProps) {
     const router = useRouter();
+    const { slug } = await params;
 
     // Dummy project data - in real app, fetch based on params.slug
     const project = {
