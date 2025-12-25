@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Project Details - FinTech Dashboard</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries,typography"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#000000",
+              "background-light": "#fdfdfd", // Almost white paper
+              "background-dark": "#18181b", // Zinc 900
+              "paper-border": "#000000", // Pure black for high contrast
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            boxShadow: {
+              'paper': '4px 4px 0px 0px #000000',
+              'paper-hover': '2px 2px 0px 0px #000000',
+              'paper-lg': '8px 8px 0px 0px #000000',
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .paper-border {
+            border: 2px solid #000000;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .prose strong {
+            color: inherit;
+        }
+    </style>
+</head>
+<body class="bg-[#eeeeee] dark:bg-[#111111] font-display text-black dark:text-white transition-colors duration-200 min-h-screen p-4 md:p-8 flex justify-center">
+<main class="w-full max-w-[1200px] bg-white dark:bg-zinc-900 paper-border shadow-paper-lg min-h-[90vh] flex flex-col relative overflow-hidden">
+<header class="flex items-center justify-between px-6 py-6 md:px-12 border-b-2 border-paper-border dark:border-white/20 bg-white dark:bg-zinc-900 sticky top-0 z-50">
+<div class="flex items-center gap-3 group cursor-pointer">
+<div class="w-10 h-10 bg-black text-white flex items-center justify-center paper-border shadow-paper group-hover:shadow-paper-hover group-hover:translate-x-[2px] group-hover:translate-y-[2px] transition-all">
+<span class="font-black text-xl">AM</span>
+</div>
+<span class="font-bold text-lg hidden sm:block tracking-tight">Andy Mahendra</span>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-sm font-bold hover:text-black border-b-2 border-transparent hover:border-black transition-all pb-0.5" href="index.html#home">Home</a>
+<a class="text-sm font-bold hover:text-black border-b-2 border-transparent hover:border-black transition-all pb-0.5" href="index.html#about">About</a>
+<a class="text-sm font-bold hover:text-black border-b-2 border-transparent hover:border-black transition-all pb-0.5" href="index.html#portfolio">Portfolio</a>
+<a class="text-sm font-bold hover:text-black border-b-2 border-transparent hover:border-black transition-all pb-0.5" href="index.html#contact">Contact</a>
+</nav>
+<button class="md:hidden p-2 paper-border shadow-paper active:shadow-paper-hover active:translate-x-[2px] active:translate-y-[2px] transition-all">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</header>
+<div class="flex-1 overflow-y-auto no-scrollbar">
+<article class="max-w-3xl mx-auto px-6 py-12 md:py-16">
+<div class="mb-8">
+<a class="inline-flex items-center gap-2 text-sm font-bold text-gray-500 hover:text-black transition-colors group" href="index.html#portfolio">
+<span class="material-symbols-outlined text-lg group-hover:-translate-x-1 transition-transform">arrow_back</span>
+                        Back to Portfolio
+                    </a>
+</div>
+<header class="mb-10">
+<h1 class="text-4xl md:text-5xl font-black tracking-tighter leading-[1.1] mb-6">
+                        FinTech Dashboard Analytics
+                    </h1>
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-8 border-b-2 border-paper-border dark:border-white/10">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-gray-200 rounded-full overflow-hidden border-2 border-paper-border grayscale">
+<img alt="Andy Mahendra" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAv27jvje-VdaLQMr1HkR8Eo5cbJrcYItU5BdPGEB3VXJzP907JvaSInlJO_psv2rJ-SBdOaVoiJcAHXHfYnrz6a-iZlwSQ3FJvl_vgRDTeu2EoviM3ARWT5FF-yLp731WFhbMrf7WnCVzGOJlDxqDVuD4Keb0v5Y2C76K_TgH6ofprIKx1WCkgejszIR9NL5vLbMOh1al5zAQKj77Fu-V_96ugNeJlWCrGbRGopXh51gJrA4cvnPS2HMHVYCbcbEM1lHrup1VkpA"/>
+</div>
+<div class="text-sm">
+<p class="font-bold text-black dark:text-white">Andy Mahendra</p>
+<p class="text-gray-500 dark:text-gray-400">Oct 12, 2023 · 5 min read</p>
+</div>
+</div>
+<div class="flex gap-2">
+<span class="text-xs font-bold px-3 py-1 bg-gray-100 text-black border-2 border-black rounded-full">React</span>
+<span class="text-xs font-bold px-3 py-1 bg-gray-100 text-black border-2 border-black rounded-full">D3.js</span>
+<span class="text-xs font-bold px-3 py-1 bg-gray-100 text-black border-2 border-black rounded-full">Tailwind</span>
+</div>
+</div>
+</header>
+<figure class="mb-12">
+<div class="w-full paper-border shadow-paper-lg bg-gray-100 overflow-hidden rounded-sm">
+<img alt="FinTech Dashboard Full Preview" class="w-full h-auto object-cover aspect-video" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRA2AFV0gZmvag6LlvyDkFOTnL8UcMmPK8X4BCbo6UE21Q3rlr4iq2D1cp2JySpEAvemIzvIFEUujRuWci23GcM7W3iKOXbLB_Tg70gjOtOk8IdhAqceGWXh22oHqPN7F6EPKxT1yH9FtCNAiK-Brl20yl7ee8NTjtO0mvWoFUwbTPrPEs_9JBZs74ld7qQOOtYeTEZrhf_Zl6aq2WDHB0gdbpjoMQpBN2JPTQmHtE_H5yn5YLPSwLqezOeAlhQnmcUsDbYtnXhg"/>
+</div>
+<figcaption class="mt-3 text-center text-sm text-gray-500 dark:text-gray-400 italic">
+                        Overview of the main dashboard analytics view
+                    </figcaption>
+</figure>
+<div class="prose prose-slate dark:prose-invert max-w-none text-black dark:text-gray-300">
+<p class="text-xl md:text-2xl font-medium leading-relaxed mb-8 text-gray-700 dark:text-gray-300">
+                        A comprehensive financial analytics platform designed to give traders and analysts real-time data visualization capabilities in a simplified, accessible interface.
+                    </p>
+<h2 class="text-2xl font-black tracking-tight mt-12 mb-4">The Challenge</h2>
+<p class="mb-6 leading-relaxed text-lg">
+                        Financial data is notoriously dense. The primary challenge was to take millions of data points processed per second and render them in a way that doesn't overwhelm the user. The client needed a solution that was both <span class="bg-gray-200 dark:bg-zinc-700 px-1 border-b-2 border-gray-400 dark:border-gray-500">performant</span> and <span class="bg-gray-200 dark:bg-zinc-700 px-1 border-b-2 border-gray-400 dark:border-gray-500">intuitive</span>, moving away from legacy spreadsheet-style layouts to a modern, card-based dashboard.
+                    </p>
+<div class="my-10 bg-gray-50 dark:bg-zinc-800/50 p-6 md:p-8 paper-border shadow-paper border-l-8 border-l-black dark:border-l-white">
+<h3 class="text-lg font-bold mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-black dark:text-white">info</span>
+                            Project Details
+                        </h3>
+<div class="grid grid-cols-2 gap-y-4 gap-x-8 text-sm">
+<div>
+<span class="block text-gray-500 dark:text-gray-400 font-bold uppercase text-xs tracking-wider">Role</span>
+<span class="font-medium">Lead Frontend Developer</span>
+</div>
+<div>
+<span class="block text-gray-500 dark:text-gray-400 font-bold uppercase text-xs tracking-wider">Timeline</span>
+<span class="font-medium">3 Months</span>
+</div>
+<div>
+<span class="block text-gray-500 dark:text-gray-400 font-bold uppercase text-xs tracking-wider">Client</span>
+<span class="font-medium">FinTech Corp</span>
+</div>
+<div>
+<span class="block text-gray-500 dark:text-gray-400 font-bold uppercase text-xs tracking-wider">Status</span>
+<span class="font-black border-b-2 border-black dark:border-white inline-block leading-none">Live &amp; Active</span>
+</div>
+</div>
+</div>
+<h2 class="text-2xl font-black tracking-tight mt-12 mb-4">The Solution</h2>
+<p class="mb-6 leading-relaxed text-lg">
+                        We built a modular component system using React. By leveraging D3.js for custom visualizations, we were able to create highly specific charts that weren't available in off-the-shelf libraries. The backend communicates via WebSockets to push updates to the frontend in real-time without polling.
+                    </p>
+<ul class="list-none space-y-3 mb-8 ml-0 pl-0">
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-black dark:text-white shrink-0 mt-1">check_box</span>
+<span><strong>Real-time updates:</strong> WebSocket integration ensures data is always fresh (latency &lt; 50ms).</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-black dark:text-white shrink-0 mt-1">check_box</span>
+<span><strong>Custom visualizations:</strong> Tailored D3 charts for specific financial indicators.</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-black dark:text-white shrink-0 mt-1">check_box</span>
+<span><strong>Responsive Design:</strong> Fully functional on tablet and desktop devices.</span>
+</li>
+</ul>
+<h2 class="text-2xl font-black tracking-tight mt-12 mb-6">Visual Walkthrough</h2>
+<div class="grid md:grid-cols-2 gap-6 mb-12">
+<div class="group">
+<div class="paper-border shadow-paper bg-gray-100 overflow-hidden mb-2">
+<img alt="Detail view" class="w-full h-48 object-cover grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxCHtEZH6ZOspA3afEiDAf93sl_pxmuc6Tr7y3d0LVfrfTI95D58bvhCu4AKHke-dRNrPDbfpc89ulj75O6gqMIPzJGuTqjxCiwpzM3Nu6MdRZ0wkjt8r5-_H3vztCBEXhRJhn-_7Se82XaC9wS-nFIyiWlqH3NpkVo8rcXspOqT9oS3txbgcPy8bxeYmbiWO5p0cb6QhsSgmdgmD7c-FE2akPpi0eiejw8AnORQqGpbv0CJplXIAwnDYx9_BTYm8PLbZ02Gh-CA"/>
+</div>
+<p class="text-xs text-gray-500">API Data Flow visualization</p>
+</div>
+<div class="group">
+<div class="paper-border shadow-paper bg-gray-100 overflow-hidden mb-2">
+<img alt="Mobile view" class="w-full h-48 object-cover grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCGet90WIVHM4jYJ2cnRRIdSPo9x1dJDrkra83VlcDGtCs6f2kbJh2gtrpED0n-uqMbq0S-Dwn9jLH5Z89boTCAJmpyIC_yIAsoHmeXe5VRHsQxFD54qXojgENQeLiHW__84SLFya1X4cDD3H7aqXHmZeHJRfcxWHy_cZdOOmf3mLc8-tNO5VbhWfN_Gvy05zTOOUzIQJozFfrsqJZ4lIP1ZEcPyGMQ7-ypDs_ipEt9bfpf9he62Fvsp6M3S3LuKxa2n11gELn0wg"/>
+</div>
+<p class="text-xs text-gray-500">Responsive mobile adaptation</p>
+</div>
+</div>
+<h2 class="text-2xl font-black tracking-tight mt-12 mb-4">Conclusion</h2>
+<p class="mb-8 leading-relaxed text-lg">
+                        The final product reduced the time-to-insight for analysts by approximately 40%. The clean, paper-inspired UI was well received for reducing eye strain during long trading sessions.
+                    </p>
+<div class="mt-16 pt-8 border-t-2 border-paper-border dark:border-white/10 flex flex-col md:flex-row gap-4 justify-between items-center">
+<div class="text-center md:text-left">
+<h3 class="font-bold text-xl mb-1">Ready to explore?</h3>
+<p class="text-gray-500 dark:text-gray-400 text-sm">Check out the live deployment or code.</p>
+</div>
+<div class="flex gap-4 w-full md:w-auto">
+<a class="flex-1 md:flex-none text-center bg-black text-white px-8 py-3 font-bold paper-border shadow-paper hover:shadow-paper-hover hover:translate-x-[2px] hover:translate-y-[2px] transition-all flex items-center justify-center gap-2" href="#">
+                                Visit Site
+                                <span class="material-symbols-outlined text-sm">open_in_new</span>
+</a>
+<a class="flex-1 md:flex-none text-center bg-white dark:bg-zinc-800 text-black dark:text-white px-8 py-3 font-bold paper-border shadow-paper hover:shadow-paper-hover hover:translate-x-[2px] hover:translate-y-[2px] transition-all flex items-center justify-center gap-2" href="#">
+<span class="material-symbols-outlined text-sm">code</span>
+                                Source
+                            </a>
+</div>
+</div>
+</div>
+<div class="mt-20 grid grid-cols-2 gap-4">
+<a class="group block p-4 border-2 border-transparent hover:border-paper-border hover:bg-gray-50 dark:hover:bg-zinc-800/50 rounded-lg transition-colors text-left" href="#">
+<span class="text-xs font-bold text-gray-400 mb-1 block group-hover:text-black dark:group-hover:text-white">Previous Project</span>
+<span class="font-bold text-lg leading-tight">Social Connect App</span>
+</a>
+<a class="group block p-4 border-2 border-transparent hover:border-paper-border hover:bg-gray-50 dark:hover:bg-zinc-800/50 rounded-lg transition-colors text-right" href="#">
+<span class="text-xs font-bold text-gray-400 mb-1 block group-hover:text-black dark:group-hover:text-white">Next Project</span>
+<span class="font-bold text-lg leading-tight">E-Commerce API</span>
+</a>
+</div>
+</article>
+<footer class="py-12 border-t-2 border-paper-border dark:border-white/20 bg-background-light dark:bg-zinc-900">
+<div class="max-w-3xl mx-auto px-6 text-center">
+<p class="text-sm font-bold text-gray-500">© 2024 Andy Mahendra. Built with digital paper &amp; code.</p>
+</div>
+</footer>
+</div>
+</main>
+</body></html>
