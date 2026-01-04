@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Patrick_Hand_SC } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
 import PageLoader from "@/components/PageLoader";
 
-const inter = Inter({
+const patrickHandSC = Patrick_Hand_SC({
     subsets: ["latin"],
-    weight: ["400", "500", "700", "900"],
+    weight: ["400"],
     display: "swap",
 });
 
@@ -38,7 +38,7 @@ export default function RootLayout({
                     strategy="beforeInteractive"
                 />
             </head>
-            <body className={inter.className}>
+            <body className={patrickHandSC.className}>
                 <PageLoader>
                     <div className="bg-[#eeeeee] min-h-screen p-4 md:p-8 flex justify-center">
                         <main className="w-full max-w-[1200px] bg-white border shadow-large min-h-[90vh] flex flex-col relative overflow-hidden">

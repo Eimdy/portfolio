@@ -63,6 +63,15 @@ figure div,
     border-radius: 0 !important;
 }
 
+/* Remove borders from all cards - borders only on buttons */
+.card,
+.card-small,
+section .bg-white,
+article.bg-white,
+div[class*="shadow"]:not(button):not(.btn):not(.btn-small):not(.btn-large):not(a.btn):not(a.btn-small):not(a.btn-large) {
+    border: none !important;
+}
+
 /* Scrollbar Hide */
 .no-scrollbar::-webkit-scrollbar {
     display: none;
@@ -202,8 +211,9 @@ button.bg-black:focus,
     background-color: #000000 !important;
 }
 
-/* Material Icons */
+/* Material Icons - Protected from global font changes */
 .material-symbols-outlined {
+    font-family: 'Material Symbols Outlined' !important;
     font-variation-settings:
         'FILL' 0,
         'wght' 400,

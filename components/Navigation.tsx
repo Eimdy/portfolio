@@ -49,7 +49,7 @@ export default function Navigation() {
                         <a
                             key={link.href}
                             href={link.href}
-                            onClick={(e) => scrollToSection(e, link.href)}
+                            onClick={link.external ? undefined : (e) => scrollToSection(e, link.href)}
                             className="no-underline text-sm font-bold hover:text-black transition-colors"
                         >
                             {link.label}
@@ -75,7 +75,7 @@ export default function Navigation() {
                             <a
                                 key={link.href}
                                 href={link.href}
-                                onClick={(e) => scrollToSection(e, link.href)}
+                                onClick={link.external ? undefined : (e) => scrollToSection(e, link.href)}
                                 className="text-sm font-bold py-3 border-b border-neutral-300 last:border-0 hover:text-black transition-colors"
                             >
                                 {link.label}
