@@ -32,7 +32,7 @@ fi
 
 # 1. Install Dependencies
 echo -e "${YELLOW}📦 Installing dependencies...${NC}"
-npm install --production
+npm install
 
 # 2. Build Application
 echo -e "${YELLOW}🏗️  Building application...${NC}"
