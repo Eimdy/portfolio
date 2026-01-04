@@ -140,11 +140,14 @@ h6 {
 
 /* Button States - No persistent color after click */
 button,
+.btn,
 .btn-large,
 .btn-small,
+a.btn,
 a.btn-large,
 a.btn-small {
     color: #000000 !important;
+    border-bottom: 2px solid #000 !important;
     transition: all 0.2s ease;
 }
 
