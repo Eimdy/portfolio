@@ -31,8 +31,8 @@ else
 fi
 
 # 1. Install Dependencies
-echo -e "${YELLOW}📦 Installing dependencies...${NC}"
-npm install
+echo -e "${YELLOW}📦 Installing dependencies (including dev)...${NC}"
+npm install --include=dev
 
 # 2. Build Application
 echo -e "${YELLOW}🏗️  Building application...${NC}"
