@@ -2,6 +2,7 @@
 
 # Portfolio Deployment Script
 # Usage: ./deploy.sh
+# Author: Andy Mahendra
 
 set -e # Exit immediately if a command exits with a non-zero status
 
@@ -19,23 +20,35 @@ if ! command -v node &> /dev/null; then
     exit 1
 fi
 
+# 0. Check Environment Variables
+if [ ! -f ".env.local" ]; then
+    echo -e "${YELLOW}⚠️  Warning: .env.local file not found!${NC}"
+    echo -e "   Please create it using .env.example as a template."
+    echo -e "   Run: ${GREEN}cp .env.example .env.local${NC} and edit the domains."
+    # We continue anyway, defaulting to localhost mode
+else
+    echo -e "${GREEN}✅ Environment file found.${NC}"
+fi
+
 # 1. Install Dependencies
 echo -e "${YELLOW}📦 Installing dependencies...${NC}"
-npm install
+npm install --production
 
 # 2. Build Application
 echo -e "${YELLOW}🏗️  Building application...${NC}"
 npm run build
 
-# 3. Database Check
+# 3. Database Check & Permissions
 if [ ! -d "database" ]; then
     echo -e "${YELLOW}📂 Creating database directory...${NC}"
     mkdir database
 fi
-
-# Run migration/init script check (optional, handled by app on start, but good to verify)
-# We won't run it explicitly as the app initializes DB on first request, 
-# but ensuring 'better-sqlite3' compiled correctly is important.
+echo -e "${YELLOW}🔒 Setting permissions for database...${NC}"
+chmod 775 database
+# If database exists, ensure it is writable
+if [ -f "database/portfolio.db" ]; then
+    chmod 664 database/portfolio.db
+fi
 
 # 4. Process Management (PM2)
 APP_NAME="portfolio"
@@ -57,6 +70,13 @@ if command -v pm2 &> /dev/null; then
     echo -e "   View logs:    ${YELLOW}pm2 logs $APP_NAME${NC}"
 else
     echo -e "${YELLOW}⚠️  PM2 is not installed.${NC}"
-    echo -e "   To run in background (recommended): ${GREEN}npm install -g pm2 && ./deploy.sh${NC}"
-    echo -e "   To run manually now: ${GREEN}npm start${NC}"
+    echo -e "   Installing PM2 globally..."
+    npm install -g pm2
+    
+    echo -e "${GREEN}▶️  Starting PM2 process...${NC}"
+    pm2 start npm --name "$APP_NAME" -- start
+    pm2 save
+    pm2 startup
+    
+    echo -e "${GREEN}✅ Deployment Complete!${NC}"
 fi
