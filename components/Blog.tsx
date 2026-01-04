@@ -1,118 +1,119 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useMemo } from "react";
+import { ROUTES } from "@/lib/routes";
 
-interface Project {
+interface BlogPost {
     id: number;
     title: string;
     slug: string;
     description: string;
     tags: string;
     image: string;
+    createdAt: string;
 }
 
-export default function Projects() {
+export default function Blog() {
     const router = useRouter();
-    const [projects, setProjects] = useState<Project[]>([]);
+    const [posts, setPosts] = useState<BlogPost[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        async function fetchProjects() {
+        async function fetchPosts() {
             try {
-                const response = await fetch('/api/content?type=project');
+                const response = await fetch('/api/content?type=blog&limit=3');
                 const data = await response.json();
-                setProjects(data);
+                setPosts(data);
             } catch (error) {
-                console.error('Error fetching projects:', error);
+                console.error('Error fetching blog posts:', error);
             } finally {
                 setLoading(false);
             }
         }
-        fetchProjects();
+        fetchPosts();
     }, []);
 
-    // Memoize projects to prevent unnecessary re-renders
-    const displayProjects = useMemo(() => projects.slice(0, 6), [projects]);
+    // Memoize posts to prevent unnecessary re-renders
+    const displayPosts = useMemo(() => posts.slice(0, 3), [posts]);
 
     return (
         <>
             <div className="w-full h-0 border-t-2 border-black"></div>
-            <section id="portfolio" className="px-6 py-16 md:px-12 bg-white">
+            <section id="blog" className="px-6 py-16 md:px-12 bg-white">
                 <div className="max-w-5xl mx-auto">
                     {/* Section Header */}
                     <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
                         <div className="flex items-center gap-4">
                             <div className="w-12 h-12 bg-neutral-100 text-black flex items-center justify-center border shadow rounded-full">
-                                <span className="material-symbols-outlined">grid_view</span>
+                                <span className="material-symbols-outlined">article</span>
                             </div>
                             <div>
-                                <h2 className="text-3xl font-black tracking-tight">Portfolio</h2>
+                                <h2 className="text-3xl font-black tracking-tight">Blog</h2>
                                 <p className="text-neutral-500 font-medium">
 
                                 </p>
                             </div>
                         </div>
-                        {/* <a
-                            href="#"
-                            className="text-black font-bold hover:underline flex items-center gap-1"
+                        <a
+                            href={ROUTES.BLOG}
+                            className="text-black font-bold hover:underline flex items-center gap-1 !border-0 !shadow-none !bg-transparent p-0"
                         >
-                            View Github{" "}
+                            View All Posts{" "}
                             <span className="material-symbols-outlined text-sm">
                                 open_in_new
                             </span>
-                        </a> */}
+                        </a>
                     </div>
 
                     {/* Loading State */}
                     {loading ? (
                         <div className="text-center py-12">
-                            <p className="text-neutral-500">Loading projects...</p>
+                            <p className="text-neutral-500">Loading blog posts...</p>
                         </div>
                     ) : (
-                        /* Projects Grid */
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {displayProjects.map((project) => (
+                        /* Blog Posts Grid */
+                        <div className="grid md:grid-cols-3 gap-8">
+                            {displayPosts.map((post) => (
                                 <div
-                                    key={project.id}
+                                    key={post.id}
                                     className="card group flex flex-col bg-white border shadow hover:shadow-large hover:-translate-y-1 transition-all duration-300"
                                 >
-                                    {/* Project Image */}
+                                    {/* Post Image */}
                                     <div className="h-48 overflow-hidden border-b border-black bg-neutral-100">
                                         <img
-                                            alt={project.title}
+                                            alt={post.title}
                                             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                                            src={project.image}
+                                            src={post.image}
                                         />
                                     </div>
 
-                                    {/* Project Content */}
+                                    {/* Post Content */}
                                     <div className="p-6 flex flex-col flex-1">
-                                        <h3 className="text-xl font-bold mb-2">{project.title}</h3>
+                                        <h3 className="text-xl font-bold mb-2">{post.title}</h3>
                                         <p className="text-sm text-neutral-600 mb-4 flex-1">
-                                            {project.description}
+                                            {post.description}
                                         </p>
 
-                                        {/* Tech Tags */}
+                                        {/* Tags */}
                                         <div className="flex gap-2 mb-4 flex-wrap">
-                                            {project.tags.split(',').map((tech, techIndex) => (
+                                            {post.tags.split(',').slice(0, 3).map((tag, tagIndex) => (
                                                 <span
-                                                    key={techIndex}
+                                                    key={tagIndex}
                                                     className="badge text-xs font-bold px-2 py-1 bg-neutral-100 text-black"
                                                 >
-                                                    {tech.trim()}
+                                                    {tag.trim()}
                                                 </span>
                                             ))}
                                         </div>
 
-                                        {/* View Button */}
-                                        <button
-                                            onClick={() => router.push(`/project/${project.slug}`)}
-                                            className="btn-small w-full py-2 border font-bold text-sm hover:bg-neutral-100 transition-colors text-center"
+                                        {/* Read More Button */}
+                                        <a
+                                            href={`${ROUTES.BLOG}/${post.slug}`}
+                                            className="btn-small w-full py-2 border font-bold text-sm hover:bg-neutral-100 transition-colors text-center block"
                                         >
-                                            View Project
-                                        </button>
+                                            Read More
+                                        </a>
                                     </div>
                                 </div>
                             ))}

@@ -1,19 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap');
-
-/* Override PaperCSS font */
-body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
-}
-
 /* Remove underlines from all links */
 a {
     text-decoration: none !important;
     border-bottom: none !important;
+    background-image: none !important;
+    box-shadow: none !important;
 }
 
 a:hover {
     text-decoration: none !important;
     border-bottom: none !important;
+    background-image: none !important;
+    box-shadow: none !important;
 }
 
 /* Specifically target navigation links */
@@ -37,6 +34,33 @@ img {
 
 img:hover {
     filter: grayscale(0%);
+}
+
+/* Remove borders and filters from images in project/blog detail pages */
+article img,
+figure img,
+.prose img {
+    border: none !important;
+    border-radius: 0 !important;
+    filter: none !important;
+}
+
+article div img,
+figure div img {
+    border: none !important;
+    border-radius: 0 !important;
+}
+
+/* Ensure all images are square (no rounded corners) */
+img {
+    border-radius: 0 !important;
+}
+
+/* Remove rounded corners from image containers */
+article div,
+figure div,
+.card div {
+    border-radius: 0 !important;
 }
 
 /* Scrollbar Hide */

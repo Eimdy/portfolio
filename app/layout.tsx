@@ -11,7 +11,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-    title: "Portfolio - Andy Mahendra",
+    title: "Eimd",
     description: "Full-stack developer and UI enthusiast building digital sketches with a unique hand-drawn aesthetic.",
     keywords: ["portfolio", "developer", "web development", "full-stack"],
     authors: [{ name: "Andy Mahendra" }],

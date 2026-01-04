@@ -1,5 +1,35 @@
+"use client";
+
+import { useState, useEffect } from "react";
+
+interface Achievement {
+    icon: string;
+    title: string;
+    organization: string;
+    date: string;
+    link?: string;
+}
+
 export default function Achievements() {
-    const achievements = [
+    const [achievements, setAchievements] = useState<Achievement[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchSettings() {
+            try {
+                const response = await fetch('/api/settings');
+                const data = await response.json();
+                setAchievements(data.achievements ?? []);
+            } catch (error) {
+                console.error('Error fetching settings:', error);
+            } finally {
+                setLoading(false);
+            }
+        }
+        fetchSettings();
+    }, []);
+
+    const defaultAchievements: Achievement[] = [
         {
             icon: "school",
             title: "ISTQB - CTFL",
@@ -26,9 +56,11 @@ export default function Achievements() {
         },
     ];
 
+    const displayAchievements = achievements.length > 0 ? achievements : defaultAchievements;
+
     return (
         <>
-            <div className="w-full h-0 border-top"></div>
+            <div className="w-full h-0 border-t-2 border-black"></div>
             <section id="achievements" className="px-6 py-16 md:px-12 bg-white">
                 <div className="max-w-5xl mx-auto">
                     {/* Section Header */}
@@ -43,10 +75,12 @@ export default function Achievements() {
 
                     {/* Achievements Grid */}
                     <div className="grid md:grid-cols-2 gap-6">
-                        {achievements.map((achievement, index) => (
+                        {displayAchievements.map((achievement, index) => (
                             <div
                                 key={index}
-                                className="card bg-white p-6 border shadow hover:shadow-hover transition-all flex items-start gap-4"
+                                onClick={() => achievement.link && window.open(achievement.link, '_blank')}
+                                className={`card bg-white p-6 border shadow hover:shadow-hover transition-all flex items-start gap-4 ${achievement.link ? 'cursor-pointer' : ''
+                                    }`}
                             >
                                 {/* Icon */}
                                 <div className="w-12 h-12 bg-black text-white flex items-center justify-center border shadow shrink-0">
@@ -57,9 +91,14 @@ export default function Achievements() {
 
                                 {/* Content */}
                                 <div className="flex-1">
-                                    <h3 className="text-lg font-bold mb-1">
-                                        {achievement.title}
-                                    </h3>
+                                    <div className="flex items-center gap-1">
+                                        <h3 className="text-lg font-bold mb-1">
+                                            {achievement.title}
+                                        </h3>
+                                        {achievement.link && (
+                                            <span className="material-symbols-outlined text-sm text-neutral-400">open_in_new</span>
+                                        )}
+                                    </div>
                                     <p className="text-sm text-neutral-600 mb-1">
                                         {achievement.organization}
                                     </p>

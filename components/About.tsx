@@ -1,5 +1,36 @@
+"use client";
+
+import { useState, useEffect } from "react";
+
+interface AboutSkill {
+    icon: string;
+    title: string;
+    tech: string;
+}
+
 export default function About() {
-    const skills = [
+    const [aboutMe, setAboutMe] = useState('');
+    const [aboutSkills, setAboutSkills] = useState<AboutSkill[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchSettings() {
+            try {
+                const response = await fetch('/api/settings');
+                const data = await response.json();
+                setAboutMe(data.about_me ?? '');
+                setAboutSkills(data.about_skills ?? []);
+            } catch (error) {
+                console.error('Error fetching settings:', error);
+            } finally {
+                setLoading(false);
+            }
+        }
+        fetchSettings();
+    }, []);
+
+    // Fallback skills if none in database (or during loading if preferred to show default)
+    const defaultSkills = [
         {
             icon: "bug_report",
             title: "Manual Testing",
@@ -22,9 +53,11 @@ export default function About() {
         },
     ];
 
+    const displaySkills = aboutSkills.length > 0 ? aboutSkills : defaultSkills;
+
     return (
         <>
-            <div className="w-full h-0 border-top"></div>
+            <div className="w-full h-0 border-t-2 border-black"></div>
             <section
                 id="about"
                 className="px-6 py-16 md:px-12 bg-neutral-50"
@@ -42,22 +75,28 @@ export default function About() {
                     <div className="grid md:grid-cols-2 gap-8 md:gap-12">
                         {/* Description */}
                         <div className="space-y-4 text-neutral-700 font-medium">
-                            <p>
-                                I&apos;m a Software Engineer in Test with over 3 years of experience
-                                in ensuring software quality through comprehensive testing strategies.
-                                My expertise spans across manual testing, automation testing, and
-                                non-functional testing.
-                            </p>
-                            <p>
-                                I specialize in building robust test automation frameworks using
-                                JavaScript and Golang, with hands-on experience in CI/CD pipelines
-                                and cutting-edge AI Agent testing solutions.
-                            </p>
+                            {!loading && aboutMe ? (
+                                <p className="whitespace-pre-line">{aboutMe}</p>
+                            ) : (
+                                <>
+                                    <p>
+                                        I&apos;m a Software Engineer in Test with over 3 years of experience
+                                        in ensuring software quality through comprehensive testing strategies.
+                                        My expertise spans across manual testing, automation testing, and
+                                        non-functional testing.
+                                    </p>
+                                    <p>
+                                        I specialize in building robust test automation frameworks using
+                                        JavaScript and Golang, with hands-on experience in CI/CD pipelines
+                                        and cutting-edge AI Agent testing solutions.
+                                    </p>
+                                </>
+                            )}
                         </div>
 
                         {/* Skills Grid */}
                         <div className="grid grid-cols-2 gap-3">
-                            {skills.map((skill, index) => (
+                            {displaySkills.map((skill, index) => (
                                 <div
                                     key={index}
                                     className="bg-white p-4 border shadow flex flex-col gap-2"

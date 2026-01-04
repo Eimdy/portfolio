@@ -1,18 +1,17 @@
-"use client";
 
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { notFound } from "next/navigation";
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import BlogNavigation from "@/components/BlogNavigation";
+import { contentQueries, initializeDatabase } from "@/lib/db";
+import Link from "next/link";
+import { Metadata } from "next";
 import { ROUTES } from "@/lib/routes";
 
-interface ProjectDetailProps {
-    params: Promise<{
-        slug: string;
-    }>;
-}
+// Force database initialization in server component context
+initializeDatabase();
 
-interface Project {
+interface BlogPost {
     id: number;
     type: string;
     title: string;
@@ -24,55 +23,62 @@ interface Project {
     createdAt: string;
 }
 
-export default function ProjectDetail({ params }: ProjectDetailProps) {
-    const router = useRouter();
-    const [slug, setSlug] = useState<string>("");
-    const [project, setProject] = useState<Project | null>(null);
-    const [loading, setLoading] = useState(true);
+interface PageProps {
+    params: Promise<{ slug: string }>;
+}
 
-    useEffect(() => {
-        params.then((p) => setSlug(p.slug));
-    }, [params]);
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+    const { slug } = await params;
+    const post = contentQueries.getBySlug(slug) as BlogPost;
 
-    useEffect(() => {
-        if (!slug) return;
-
-        async function fetchProject() {
-            try {
-                const response = await fetch(`/api/content?type=project`);
-                const projects = await response.json();
-                const foundProject = projects.find((p: Project) => p.slug === slug);
-                setProject(foundProject || null);
-            } catch (error) {
-                console.error('Error fetching project:', error);
-            } finally {
-                setLoading(false);
-            }
-        }
-
-        fetchProject();
-    }, [slug]);
-
-    if (loading) {
-        return (
-            <div className="min-h-screen bg-white">
-                <div className="flex items-center justify-center py-20">
-                    <p className="text-neutral-500">Loading...</p>
-                </div>
-            </div>
-        );
+    if (!post) {
+        return {
+            title: 'Post Not Found',
+        };
     }
 
-    if (!project) {
+    return {
+        title: `${post.title} - Andy Mahendra Blog`,
+        description: post.description,
+        openGraph: {
+            title: post.title,
+            description: post.description,
+            type: 'article',
+            publishedTime: post.createdAt,
+            images: [
+                {
+                    url: post.image,
+                    width: 1200,
+                    height: 630,
+                    alt: post.title,
+                },
+            ],
+            tags: post.tags.split(',').map(tag => tag.trim()),
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: post.title,
+            description: post.description,
+            images: [post.image],
+        },
+    };
+}
+
+export default async function BlogDetailPage({ params }: PageProps) {
+    const { slug } = await params;
+    const post = contentQueries.getBySlug(slug) as BlogPost;
+
+    if (!post) {
         return (
             <div className="min-h-screen bg-white">
+                <BlogNavigation />
                 <div className="flex flex-col items-center justify-center gap-4 py-20">
-                    <h1 className="text-3xl font-black">Project Not Found</h1>
+                    <h1 className="text-3xl font-black">Blog Post Not Found</h1>
                     <a
-                        href={`${ROUTES.HOME}/#portfolio`}
+                        href={ROUTES.BLOG}
                         className="btn border px-6 py-2 font-bold hover:bg-neutral-100"
                     >
-                        Back to Portfolio
+                        View All Posts
                     </a>
                 </div>
             </div>
@@ -81,11 +87,14 @@ export default function ProjectDetail({ params }: ProjectDetailProps) {
 
     return (
         <div className="min-h-screen bg-white">
+            {/* Header with Back Button */}
+            <BlogNavigation />
+
             {/* Hero Image */}
             <div className="w-full h-64 md:h-96">
                 <img
-                    src={project.image}
-                    alt={project.title}
+                    src={post.image}
+                    alt={post.title}
                     className="w-full h-full object-cover grayscale-0"
                 />
             </div>
@@ -93,11 +102,11 @@ export default function ProjectDetail({ params }: ProjectDetailProps) {
             {/* Content */}
             <article className="max-w-3xl mx-auto px-6 py-12 md:px-12">
                 {/* Title */}
-                <h1 className="text-4xl md:text-5xl font-black mb-4">{project.title}</h1>
+                <h1 className="text-4xl md:text-5xl font-black mb-4">{post.title}</h1>
 
                 {/* Meta */}
                 <div className="flex flex-wrap gap-2 mb-8">
-                    {project.tags.split(',').map((tag, index) => (
+                    {post.tags.split(',').map((tag, index) => (
                         <span
                             key={index}
                             className="badge text-xs font-bold px-3 py-1 bg-neutral-100 text-black border"
@@ -109,7 +118,7 @@ export default function ProjectDetail({ params }: ProjectDetailProps) {
 
                 {/* Description */}
                 <p className="text-xl text-neutral-600 mb-8 font-medium border-l-4 border-black pl-4">
-                    {project.description}
+                    {post.description}
                 </p>
 
                 {/* Markdown Content */}
@@ -137,18 +146,18 @@ export default function ProjectDetail({ params }: ProjectDetailProps) {
                             em: ({ node, ...props }) => <em className="italic" {...props} />,
                         }}
                     >
-                        {project.content}
+                        {post.content}
                     </ReactMarkdown>
                 </div>
 
                 {/* Back Button */}
                 <div className="mt-12 pt-8 border-t-2 border-black">
                     <a
-                        href={`${ROUTES.HOME}/#portfolio`}
+                        href={ROUTES.BLOG}
                         className="btn border px-6 py-3 font-bold hover:bg-neutral-100 transition-colors inline-block"
                         style={{ backgroundImage: 'none' }}
                     >
-                        ← Back to Portfolio
+                        ← Back to All Posts
                     </a>
                 </div>
             </article>
