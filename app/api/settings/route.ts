@@ -34,7 +34,12 @@ export async function PUT(request: NextRequest) {
         const body = await request.json();
 
         // Validate settings
-        const allowedKeys = ['ready_for_hire', 'ready_for_hire_text', 'job_title', 'job_description', 'about_me', 'skills', 'about_skills', 'achievements', 'social_links'];
+        const allowedKeys = [
+            'ready_for_hire', 'ready_for_hire_text', 'job_title', 'job_description',
+            'about_me', 'skills', 'about_skills', 'achievements', 'social_links',
+            'show_hero', 'show_about', 'show_skills', 'show_achievements',
+            'show_projects', 'show_blog', 'show_contact'
+        ];
         const updates: Record<string, any> = {};
 
         for (const [key, value] of Object.entries(body)) {

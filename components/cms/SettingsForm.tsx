@@ -30,7 +30,7 @@ interface SocialLink {
 export default function SettingsForm({ onCancel }: SettingsFormProps) {
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
-    const [activeTab, setActiveTab] = useState<'general' | 'profile' | 'about' | 'skills' | 'achievements' | 'contact'>('general');
+    const [activeTab, setActiveTab] = useState<'general' | 'profile' | 'about' | 'skills' | 'achievements' | 'contact' | 'layout'>('general');
 
     const [settings, setSettings] = useState({
         ready_for_hire: true,
@@ -41,7 +41,14 @@ export default function SettingsForm({ onCancel }: SettingsFormProps) {
         skills: [] as string[],
         about_skills: [] as AboutSkill[],
         achievements: [] as Achievement[],
-        social_links: [] as SocialLink[]
+        social_links: [] as SocialLink[],
+        show_hero: true,
+        show_about: true,
+        show_skills: true,
+        show_achievements: true,
+        show_projects: true,
+        show_blog: true,
+        show_contact: true
     });
 
     const [newSkill, setNewSkill] = useState('');
@@ -66,7 +73,14 @@ export default function SettingsForm({ onCancel }: SettingsFormProps) {
                 skills: data.skills ?? [],
                 about_skills: data.about_skills ?? [],
                 achievements: data.achievements ?? [],
-                social_links: data.social_links ?? []
+                social_links: data.social_links ?? [],
+                show_hero: data.show_hero ?? true,
+                show_about: data.show_about ?? true,
+                show_skills: data.show_skills ?? true,
+                show_achievements: data.show_achievements ?? true,
+                show_projects: data.show_projects ?? true,
+                show_blog: data.show_blog ?? true,
+                show_contact: data.show_contact ?? true
             });
         } catch (error) {
             console.error('Error fetching settings:', error);
@@ -178,7 +192,8 @@ export default function SettingsForm({ onCancel }: SettingsFormProps) {
         { id: 'about', label: 'About Me' },
         { id: 'skills', label: 'Skills' },
         { id: 'achievements', label: 'Achievements' },
-        { id: 'contact', label: 'Contact Links' }
+        { id: 'contact', label: 'Contact Links' },
+        { id: 'layout', label: 'Layout' }
     ] as const;
 
     return (
@@ -465,6 +480,152 @@ export default function SettingsForm({ onCancel }: SettingsFormProps) {
                                 >
                                     Add Achievement
                                 </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {/* Layout Tab */}
+                {activeTab === 'layout' && (
+                    <div className="space-y-4">
+                        <div className="bg-blue-50 p-4 border border-blue-200 mb-6">
+                            <p className="text-sm text-blue-800">
+                                <strong>Info:</strong> Control which sections appear on your homepage. Unchecked sections will be hidden from visitors.
+                            </p>
+                        </div>
+
+                        <div className="grid gap-4">
+                            {/* Hero Section */}
+                            <div className="flex items-center justify-between p-4 border rounded bg-neutral-50">
+                                <div className="flex items-center gap-3">
+                                    <input
+                                        type="checkbox"
+                                        id="show_hero"
+                                        checked={settings.show_hero}
+                                        onChange={(e) => setSettings({ ...settings, show_hero: e.target.checked })}
+                                        className="w-5 h-5"
+                                    />
+                                    <label htmlFor="show_hero" className="font-bold cursor-pointer">
+                                        Hero Section
+                                    </label>
+                                </div>
+                                <span className="text-sm font-bold">
+                                    {settings.show_hero ? '✅ Visible' : '❌ Hidden'}
+                                </span>
+                            </div>
+
+                            {/* About Section */}
+                            <div className="flex items-center justify-between p-4 border rounded bg-neutral-50">
+                                <div className="flex items-center gap-3">
+                                    <input
+                                        type="checkbox"
+                                        id="show_about"
+                                        checked={settings.show_about}
+                                        onChange={(e) => setSettings({ ...settings, show_about: e.target.checked })}
+                                        className="w-5 h-5"
+                                    />
+                                    <label htmlFor="show_about" className="font-bold cursor-pointer">
+                                        About Section
+                                    </label>
+                                </div>
+                                <span className="text-sm font-bold">
+                                    {settings.show_about ? '✅ Visible' : '❌ Hidden'}
+                                </span>
+                            </div>
+
+                            {/* Skills Section */}
+                            <div className="flex items-center justify-between p-4 border rounded bg-neutral-50">
+                                <div className="flex items-center gap-3">
+                                    <input
+                                        type="checkbox"
+                                        id="show_skills"
+                                        checked={settings.show_skills}
+                                        onChange={(e) => setSettings({ ...settings, show_skills: e.target.checked })}
+                                        className="w-5 h-5"
+                                    />
+                                    <label htmlFor="show_skills" className="font-bold cursor-pointer">
+                                        Skills Section
+                                    </label>
+                                </div>
+                                <span className="text-sm font-bold">
+                                    {settings.show_skills ? '✅ Visible' : '❌ Hidden'}
+                                </span>
+                            </div>
+
+                            {/* Achievements Section */}
+                            <div className="flex items-center justify-between p-4 border rounded bg-neutral-50">
+                                <div className="flex items-center gap-3">
+                                    <input
+                                        type="checkbox"
+                                        id="show_achievements"
+                                        checked={settings.show_achievements}
+                                        onChange={(e) => setSettings({ ...settings, show_achievements: e.target.checked })}
+                                        className="w-5 h-5"
+                                    />
+                                    <label htmlFor="show_achievements" className="font-bold cursor-pointer">
+                                        Achievements Section
+                                    </label>
+                                </div>
+                                <span className="text-sm font-bold">
+                                    {settings.show_achievements ? '✅ Visible' : '❌ Hidden'}
+                                </span>
+                            </div>
+
+                            {/* Projects Section */}
+                            <div className="flex items-center justify-between p-4 border rounded bg-neutral-50">
+                                <div className="flex items-center gap-3">
+                                    <input
+                                        type="checkbox"
+                                        id="show_projects"
+                                        checked={settings.show_projects}
+                                        onChange={(e) => setSettings({ ...settings, show_projects: e.target.checked })}
+                                        className="w-5 h-5"
+                                    />
+                                    <label htmlFor="show_projects" className="font-bold cursor-pointer">
+                                        Projects Section
+                                    </label>
+                                </div>
+                                <span className="text-sm font-bold">
+                                    {settings.show_projects ? '✅ Visible' : '❌ Hidden'}
+                                </span>
+                            </div>
+
+                            {/* Blog Section */}
+                            <div className="flex items-center justify-between p-4 border rounded bg-neutral-50">
+                                <div className="flex items-center gap-3">
+                                    <input
+                                        type="checkbox"
+                                        id="show_blog"
+                                        checked={settings.show_blog}
+                                        onChange={(e) => setSettings({ ...settings, show_blog: e.target.checked })}
+                                        className="w-5 h-5"
+                                    />
+                                    <label htmlFor="show_blog" className="font-bold cursor-pointer">
+                                        Blog Section
+                                    </label>
+                                </div>
+                                <span className="text-sm font-bold">
+                                    {settings.show_blog ? '✅ Visible' : '❌ Hidden'}
+                                </span>
+                            </div>
+
+                            {/* Contact Section */}
+                            <div className="flex items-center justify-between p-4 border rounded bg-neutral-50">
+                                <div className="flex items-center gap-3">
+                                    <input
+                                        type="checkbox"
+                                        id="show_contact"
+                                        checked={settings.show_contact}
+                                        onChange={(e) => setSettings({ ...settings, show_contact: e.target.checked })}
+                                        className="w-5 h-5"
+                                    />
+                                    <label htmlFor="show_contact" className="font-bold cursor-pointer">
+                                        Contact Section
+                                    </label>
+                                </div>
+                                <span className="text-sm font-bold">
+                                    {settings.show_contact ? '✅ Visible' : '❌ Hidden'}
+                                </span>
                             </div>
                         </div>
                     </div>

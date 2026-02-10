@@ -17,4 +17,11 @@ INSERT OR IGNORE INTO settings (key, value) VALUES
 
 Proficient in building scalable test frameworks using JavaScript, Golang, and modern automation tools like Katalon and Playwright, with expertise in CI/CD pipelines and AI-powered testing solutions.'),
 ('about_me', 'I''m a passionate software engineer with expertise in building modern web applications. I love creating elegant solutions to complex problems and continuously learning new technologies.'),
-('skills', '["JavaScript","TypeScript","React","Next.js","Node.js","Python","SQL","Git","Docker","AWS"]');
+('skills', '["JavaScript","TypeScript","React","Next.js","Node.js","Python","SQL","Git","Docker","AWS"]'),
+('show_hero', 'true'),
+('show_about', 'true'),
+('show_skills', 'true'),
+('show_achievements', 'true'),
+('show_projects', 'true'),
+('show_blog', 'true'),
+('show_contact', 'true');

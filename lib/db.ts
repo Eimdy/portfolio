@@ -70,7 +70,7 @@ export function initializeDatabase() {
             console.log('✅ Settings table created');
         }
 
-        // Ensure new settings exist (about_skills, achievements)
+        // Ensure new settings exist (about_skills, achievements, visibility)
         // This allows seamless migration for existing dbs
         const defaults = [
             {
@@ -101,7 +101,14 @@ export function initializeDatabase() {
                     { platform: "LinkedIn", url: "https://linkedin.com/in/", icon: "work", description: "Professional Profile" },
                     { platform: "GitHub", url: "https://github.com/", icon: "code", description: "Code Repository" }
                 ])
-            }
+            },
+            { key: 'show_hero', value: 'true' },
+            { key: 'show_about', value: 'true' },
+            { key: 'show_skills', value: 'true' },
+            { key: 'show_achievements', value: 'true' },
+            { key: 'show_projects', value: 'true' },
+            { key: 'show_blog', value: 'true' },
+            { key: 'show_contact', value: 'true' }
         ];
 
         const insert = database.prepare('INSERT OR IGNORE INTO settings (key, value) VALUES (@key, @value)');
@@ -295,7 +302,7 @@ export const settingsQueries = {
             // Parse JSON values for skills and social links
             if (['skills', 'about_skills', 'achievements', 'social_links'].includes(row.key)) {
                 settings[row.key] = JSON.parse(row.value);
-            } else if (row.key === 'ready_for_hire') {
+            } else if (row.key === 'ready_for_hire' || row.key.startsWith('show_')) {
                 settings[row.key] = row.value === 'true';
             } else {
                 settings[row.key] = row.value;

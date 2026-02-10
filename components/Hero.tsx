@@ -42,7 +42,7 @@ export default function Hero() {
                     <img
                         alt="Portrait of developer"
                         className="w-full h-full object-cover"
-                        src="https://media.licdn.com/dms/image/v2/D5603AQH2WnDSOeqwLg/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1687758454631?e=1768435200&v=beta&t=tAv9Q9kmff8mV_MQxs0tLKB3FcNQRu11kZ6J0fwpWvs"
+                        src="/image.jpg"
                     />
                 </div>
                 {settings.ready_for_hire && (

@@ -52,7 +52,7 @@ export default function AllBlogsPage() {
                 <div className="mb-12 text-center">
                     <h1 className="text-5xl md:text-6xl font-black tracking-tight mb-4">Blog</h1>
                     <p className="text-lg text-neutral-600 font-medium max-w-2xl mx-auto">
-                        Thoughts, tutorials, and insights about web development, design, and technology
+                        A QA&apos;s perspective on tech, tools, and the world around us.
                     </p>
                     {!loading && (
                         <p className="text-sm text-neutral-500 mt-4">

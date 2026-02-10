@@ -51,7 +51,7 @@ export default function Blog() {
                             <div>
                                 <h2 className="text-3xl font-black tracking-tight">Blog</h2>
                                 <p className="text-neutral-500 font-medium">
-
+                                    A QA&apos;s perspective on tech, tools, and the world around us.
                                 </p>
                             </div>
                         </div>
