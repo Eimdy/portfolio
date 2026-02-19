@@ -1,43 +1,69 @@
 import React from 'react';
 
 const VIDEO_EXTENSIONS = ['.mp4', '.webm', '.ogg', '.mov'];
+const ALIGNMENTS = ['left', 'center', 'right'] as const;
+type Alignment = typeof ALIGNMENTS[number];
 
 /**
- * Parse alt text for custom size: "alt text|WIDTHxHEIGHT" or "alt text|WIDTH"
+ * Parse alt text for custom size and alignment:
+ *   "alt|400x300"         → size only
+ *   "alt|center"          → align only
+ *   "alt|400x300|center"  → size + align
+ *   "alt|400|right"       → width + align
  */
-function parseAltText(alt: string): { altText: string; width?: number; height?: number } {
-    const sizeMatch = alt.match(/^(.+?)\|(\d+)(?:x(\d+))?$/);
-    if (sizeMatch) {
-        return {
-            altText: sizeMatch[1].trim(),
-            width: parseInt(sizeMatch[2]),
-            height: sizeMatch[3] ? parseInt(sizeMatch[3]) : undefined,
-        };
+function parseAltText(alt: string): { altText: string; width?: number; height?: number; align?: Alignment } {
+    const parts = alt.split('|').map(s => s.trim());
+    const altText = parts[0] || alt;
+    let width: number | undefined;
+    let height: number | undefined;
+    let align: Alignment | undefined;
+
+    for (let i = 1; i < parts.length; i++) {
+        const part = parts[i].toLowerCase();
+        if (ALIGNMENTS.includes(part as Alignment)) {
+            align = part as Alignment;
+        } else {
+            const sizeMatch = part.match(/^(\d+)(?:x(\d+))?$/);
+            if (sizeMatch) {
+                width = parseInt(sizeMatch[1]);
+                height = sizeMatch[2] ? parseInt(sizeMatch[2]) : undefined;
+            }
+        }
     }
-    return { altText: alt };
+
+    return { altText, width, height, align };
 }
 
 /**
  * Check if a URL points to a video file
  */
 function isVideoUrl(src: string): boolean {
-    const url = src.toLowerCase().split('?')[0]; // Remove query params
+    const url = src.toLowerCase().split('?')[0];
     return VIDEO_EXTENSIONS.some(ext => url.endsWith(ext));
 }
+
+const ALIGN_STYLES: Record<Alignment, React.CSSProperties> = {
+    left: { display: 'flex', justifyContent: 'flex-start' },
+    center: { display: 'flex', justifyContent: 'center' },
+    right: { display: 'flex', justifyContent: 'flex-end' },
+};
 
 /**
  * Custom image component for ReactMarkdown that:
  * - Renders video files as <video> player
- * - Supports custom sizing via alt text: ![alt|WIDTHxHEIGHT](src)
+ * - Supports custom sizing: ![alt|WIDTHxHEIGHT](src)
+ * - Supports alignment: ![alt|center](src) or ![alt|400x300|right](src)
  * - Renders images with responsive styling
  */
 export function MarkdownImage({ node, src, alt, width: _w, height: _h, style: _s, ...props }: any) {
     if (!src) return null;
 
-    const { altText, width, height } = parseAltText(alt || '');
+    const { altText, width, height, align } = parseAltText(alt || '');
+
+    let element: React.ReactNode;
 
     if (isVideoUrl(src)) {
-        return (
+        element = (
             <video
                 src={src}
                 controls
@@ -52,21 +78,27 @@ export function MarkdownImage({ node, src, alt, width: _w, height: _h, style: _s
                 {altText || 'Your browser does not support the video tag.'}
             </video>
         );
+    } else {
+        element = (
+            <img
+                src={src}
+                alt={altText}
+                style={
+                    width || height
+                        ? { width: width ? `${width}px` : undefined, height: height ? `${height}px` : undefined, maxWidth: '100%' }
+                        : { maxWidth: '100%' }
+                }
+                className="my-4 rounded"
+                loading="lazy"
+            />
+        );
     }
 
-    return (
-        <img
-            src={src}
-            alt={altText}
-            style={
-                width || height
-                    ? { width: width ? `${width}px` : undefined, height: height ? `${height}px` : undefined, maxWidth: '100%' }
-                    : { maxWidth: '100%' }
-            }
-            className="my-4 rounded"
-            loading="lazy"
-        />
-    );
+    if (align) {
+        return <div style={ALIGN_STYLES[align]}>{element}</div>;
+    }
+
+    return element;
 }
 
 /**
