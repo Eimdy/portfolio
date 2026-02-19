@@ -575,8 +575,9 @@ export default function ContentForm({ editingId, onSuccess, onCancel }: ContentF
                             Full markdown support: headings (#), bold (**text**), italic (*text*), code blocks (```), lists, links, and more.
                             Use <code className="bg-neutral-100 px-1">![alt](/uploads/file.jpg)</code> for images/videos.
                             Size: <code className="bg-neutral-100 px-1">![alt|600x400](/uploads/file.jpg)</code>
+                            Fit: <code className="bg-neutral-100 px-1">![alt|fit](/uploads/file.jpg)</code>
                             Align: <code className="bg-neutral-100 px-1">![alt|center](/uploads/file.jpg)</code> (left, center, right)
-                            Both: <code className="bg-neutral-100 px-1">![alt|600x400|center](/uploads/file.jpg)</code>
+                            Combine: <code className="bg-neutral-100 px-1">![alt|fit|center](/uploads/file.jpg)</code>
                         </p>
                     </div>
 

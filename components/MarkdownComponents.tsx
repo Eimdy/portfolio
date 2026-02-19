@@ -10,18 +10,23 @@ type Alignment = typeof ALIGNMENTS[number];
  *   "alt|center"          → align only
  *   "alt|400x300|center"  → size + align
  *   "alt|400|right"       → width + align
+ *   "alt|fit"             → full width
+ *   "alt|fit|center"      → full width + align
  */
-function parseAltText(alt: string): { altText: string; width?: number; height?: number; align?: Alignment } {
+function parseAltText(alt: string): { altText: string; width?: number; height?: number; align?: Alignment; fit?: boolean } {
     const parts = alt.split('|').map(s => s.trim());
     const altText = parts[0] || alt;
     let width: number | undefined;
     let height: number | undefined;
     let align: Alignment | undefined;
+    let fit = false;
 
     for (let i = 1; i < parts.length; i++) {
         const part = parts[i].toLowerCase();
         if (ALIGNMENTS.includes(part as Alignment)) {
             align = part as Alignment;
+        } else if (part === 'fit') {
+            fit = true;
         } else {
             const sizeMatch = part.match(/^(\d+)(?:x(\d+))?$/);
             if (sizeMatch) {
@@ -31,7 +36,7 @@ function parseAltText(alt: string): { altText: string; width?: number; height?: 
         }
     }
 
-    return { altText, width, height, align };
+    return { altText, width, height, align, fit };
 }
 
 /**
@@ -58,7 +63,7 @@ const ALIGN_STYLES: Record<Alignment, React.CSSProperties> = {
 export function MarkdownImage({ node, src, alt, width: _w, height: _h, style: _s, ...props }: any) {
     if (!src) return null;
 
-    const { altText, width, height, align } = parseAltText(alt || '');
+    const { altText, width, height, align, fit } = parseAltText(alt || '');
 
     let element: React.ReactNode;
 
@@ -68,9 +73,11 @@ export function MarkdownImage({ node, src, alt, width: _w, height: _h, style: _s
                 src={src}
                 controls
                 style={
-                    width || height
-                        ? { width: width ? `${width}px` : undefined, height: height ? `${height}px` : undefined, maxWidth: '100%' }
-                        : { width: '100%', maxWidth: '100%' }
+                    fit
+                        ? { width: '100%', maxWidth: '100%' }
+                        : width || height
+                            ? { width: width ? `${width}px` : undefined, height: height ? `${height}px` : undefined, maxWidth: '100%' }
+                            : { width: '100%', maxWidth: '100%' }
                 }
                 className="my-4 rounded"
                 title={altText}
@@ -84,9 +91,11 @@ export function MarkdownImage({ node, src, alt, width: _w, height: _h, style: _s
                 src={src}
                 alt={altText}
                 style={
-                    width || height
-                        ? { width: width ? `${width}px` : undefined, height: height ? `${height}px` : undefined, maxWidth: '100%' }
-                        : { maxWidth: '100%' }
+                    fit
+                        ? { width: '100%', maxWidth: '100%' }
+                        : width || height
+                            ? { width: width ? `${width}px` : undefined, height: height ? `${height}px` : undefined, maxWidth: '100%' }
+                            : { maxWidth: '100%' }
                 }
                 className="my-4 rounded"
                 loading="lazy"
