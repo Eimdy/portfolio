@@ -7,6 +7,7 @@ import { contentQueries, initializeDatabase } from "@/lib/db";
 import Link from "next/link";
 import { Metadata } from "next";
 import { ROUTES } from "@/lib/routes";
+import { markdownComponents } from "@/components/MarkdownComponents";
 
 // Force database initialization in server component context
 initializeDatabase();
@@ -125,26 +126,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
                 <div className="prose prose-lg max-w-none markdown-content">
                     <ReactMarkdown
                         remarkPlugins={[remarkGfm]}
-                        components={{
-                            h1: ({ node, ...props }) => <h1 className="text-3xl font-black mt-8 mb-4 border-b-2 border-black pb-2" {...props} />,
-                            h2: ({ node, ...props }) => <h2 className="text-2xl font-bold mt-6 mb-3" {...props} />,
-                            h3: ({ node, ...props }) => <h3 className="text-xl font-bold mt-4 mb-2" {...props} />,
-                            p: ({ node, ...props }) => <p className="mb-4 text-neutral-700 leading-relaxed" {...props} />,
-                            a: ({ node, ...props }) => <a className="text-black font-bold underline hover:no-underline" {...props} />,
-                            ul: ({ node, ...props }) => <ul className="list-disc list-inside mb-4 space-y-2" {...props} />,
-                            ol: ({ node, ...props }) => <ol className="list-decimal list-inside mb-4 space-y-2" {...props} />,
-                            li: ({ node, ...props }) => <li className="text-neutral-700" {...props} />,
-                            code: ({ node, inline, ...props }: any) =>
-                                inline ? (
-                                    <code className="bg-neutral-100 px-2 py-1 rounded font-mono text-sm border" {...props} />
-                                ) : (
-                                    <code className="block bg-neutral-900 text-white p-4 rounded font-mono text-sm overflow-x-auto mb-4 border-2 border-black" {...props} />
-                                ),
-                            pre: ({ node, ...props }) => <pre className="mb-4" {...props} />,
-                            blockquote: ({ node, ...props }) => <blockquote className="border-l-4 border-black pl-4 italic my-4 text-neutral-600" {...props} />,
-                            strong: ({ node, ...props }) => <strong className="font-black" {...props} />,
-                            em: ({ node, ...props }) => <em className="italic" {...props} />,
-                        }}
+                        components={markdownComponents}
                     >
                         {post.content}
                     </ReactMarkdown>
